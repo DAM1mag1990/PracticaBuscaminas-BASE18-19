@@ -128,10 +128,15 @@ public void sumaPunto() {
 			v= false;
 		}else {
 			v=true;
-			puntuacion++;
+			
+			if(tablero[i][j]!=0) {
+				puntuacion++;
+			}
+			
 			if(puntuacion==80) {
 				v=false;
 			}
+			
 		}
 		return v;
 	}

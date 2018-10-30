@@ -13,8 +13,13 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-
-
+/**
+ * 
+ * @author Manuel Amor Manuel_lol@hotmail.com
+ * @version 1.0
+ * @since 1.0
+ *
+ */
 public class VentanaPrincipal {
 
 	//La ventana principal, en este caso, guarda todos los componentes:
@@ -234,11 +239,18 @@ public class VentanaPrincipal {
 
 
 		default:
-			System.out.println(juego.getMinasAlrededor(i, j)+" PENE");
+	
 			break;
 		}
 		
 		}
+	/**
+	 * El metodo abrir ceros recibe las coordenadas del panel, comprueba los ceros que hay alrededor y los muestra como celdas vacias.
+	 * @param i
+	 * @param j
+	 */
+	  
+	 
 	public void abrirCeros(int i, int j) {
 		int [][]tabl= juego.getTablero();
 		
@@ -246,19 +258,21 @@ public class VentanaPrincipal {
 				for (int k2 = j-1; k2 <= j+1; k2++) {
 					
 					if(k>=0&&k<10&&k2>=0&&k2<10) {
-						
-						if(tabl[k][k2]==0) {
-							
+						juego.sumaPunto();	
 								
-//mi intencion era hacer este metodo recursivo de tal forma que si al casilla vale 0, vuelva a comprobar si hay 0a su alrededor y los siga abriendo,peor me da error.
+//mi intencion era hacer este metodo recursivo de tal forma que si la casilla vale 0,
+//vuelva a comprobar si hay 0 a  su alrededor y los siga abriendo,pero me da error.
 							
-							juego.sumaPunto();
-							panelesJuego[k][k2].removeAll();
-							JLabel tex=new JLabel("");
-							//tex.setHorizontalAlignment(SwingConstants.CENTER);
+						mostrarNumMinasAlrededor(k ,k2);
+						if(tabl[k][k2]==0) {
+							JLabel tex= new JLabel("");
 							panelesJuego[k][k2].add(tex);
+						//	abrirCeros(k, k2);
+						}
 							
-					}
+					
+							
+					
 					
 					}
 					

@@ -24,7 +24,7 @@ public class ActionBoton implements ActionListener{
 	}
 	
 	/**
-	 *Acción que ocurrirá cuando pulsamos uno de los botones.
+	 *Si se puede abrir la casillamostrara el numerod eminas que hay alrededor, en caso de que sea 0 abrir� las casilla que estan en contacto directo con ella sabiendo que ninguna va a  ser bomba.
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -32,7 +32,10 @@ public class ActionBoton implements ActionListener{
 		
 		if(ventana.juego.abrirCasilla(i, j)) {
 			ventana.mostrarNumMinasAlrededor(i, j);
-			ventana.abrirCeros(i, j);
+			if(ventana.juego.getTablero()[i][j]==0) {
+				ventana.abrirCeros(i, j);
+			}
+			
 			ventana.actualizarPuntuacion();
 			ventana.refrescarPantalla();
 		}else {
