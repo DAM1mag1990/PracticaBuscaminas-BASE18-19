@@ -1,4 +1,5 @@
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -22,7 +23,7 @@ public class VentanaPrincipal {
 	JPanel panelEmpezar;
 	JPanel panelPuntuacion;
 	JPanel panelJuego;
-	
+
 	//Todos los botones se meten en un panel independiente.
 	//Hacemos esto para que podamos cambiar después los componentes por otros
 	JPanel [][] panelesJuego;
@@ -139,15 +140,53 @@ public class VentanaPrincipal {
 	 * Método que inicializa todos los lísteners que necesita inicialmente el programa
 	 */
 	public void inicializarListeners(){
-		//TODO
+		
+	
+		botonEmpezar.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				
+				for (int i = 0; i < panelesJuego.length; i++) {
+					for (int j = 0; j < panelesJuego[i].length; j++) {
+						panelesJuego[i][j].removeAll();
+					}
+				}
+				for (int i = 0; i < botonesJuego.length; i++) {
+					for (int j = 0; j < botonesJuego[i].length; j++) {
+						botonesJuego[i][j] = new JButton("-");
+						panelesJuego[i][j].add(botonesJuego[i][j]);
+					}
+				}
+				
+				juego.inicializarPartida();
+				actualizarPuntuacion();
+				refrescarPantalla();
+				juego.depurarTablero();
+				inicializarListeners();
+			
+			}
+		});
+		
+			for (int i = 0; i < botonesJuego.length; i++) {
+			
+			int z=i;
+			for (int j = 0; j < botonesJuego[i].length; j++) {
+			int p=j;
+			botonesJuego[i][j].addActionListener(new ActionBoton(VentanaPrincipal.this,z,p));
+			}
+		}
+		
+	
+		
 	}
 	
 	
 	/**
 	 * Pinta en la pantalla el número de minas que hay alrededor de la celda
 	 * Saca el botón que haya en la celda determinada y añade un JLabel centrado y no editable con el número de minas alrededor.
-	 * Se pinta el color del texto según la siguiente correspondecia (consultar la variable correspondeciaColor):
-	 * - 0 : negro
+	 * Se pinta el color del texto según la siguiente correspondecia (consultar la variable correspondeciaColor)	 * - 0 : negro
 	 * - 1 : cyan
 	 * - 2 : verde
 	 * - 3 : naranja
@@ -156,7 +195,78 @@ public class VentanaPrincipal {
 	 * @param j: posición horizontal de la celda.
 	 */
 	public void mostrarNumMinasAlrededor(int i , int j) {
-		//TODO
+		panelesJuego[i][j].removeAll();
+		//String num=;
+	
+		
+	JLabel tex=new JLabel();
+		switch (String.valueOf(juego.getMinasAlrededor(i, j))) {
+		
+		case "1":
+	System.out.println(juego.getMinasAlrededor(i, j));
+			tex.setHorizontalAlignment(SwingConstants.CENTER);
+			tex.setText(String.valueOf(juego.getMinasAlrededor(i, j)));
+			tex.setForeground(Color.CYAN);
+			panelesJuego[i][j].add(tex);
+			
+			break;
+		case "2":
+			
+			
+			tex.setHorizontalAlignment(SwingConstants.CENTER);
+			tex.setText(String.valueOf(juego.getMinasAlrededor(i, j)));
+			tex.setForeground(Color.GREEN);
+			
+			panelesJuego[i][j].add(tex);	
+			break;
+		case "3":
+			tex.setText(String.valueOf(juego.getMinasAlrededor(i, j)));
+			tex.setHorizontalAlignment(SwingConstants.CENTER);
+			tex.setForeground(Color.ORANGE);
+			panelesJuego[i][j].add(tex);			
+			break;
+		case "4":
+			tex.setText(String.valueOf(juego.getMinasAlrededor(i, j)));
+			tex.setHorizontalAlignment(SwingConstants.CENTER);
+			tex.setForeground(Color.RED);
+			panelesJuego[i][j].add(tex);			
+			break;
+
+
+		default:
+			System.out.println(juego.getMinasAlrededor(i, j)+" PENE");
+			break;
+		}
+		
+		}
+	public void abrirCeros(int i, int j) {
+		int [][]tabl= juego.getTablero();
+		
+			for (int k = i-1; k <= i+1; k++) {
+				for (int k2 = j-1; k2 <= j+1; k2++) {
+					
+					if(k>=0&&k<10&&k2>=0&&k2<10) {
+						
+						if(tabl[k][k2]==0) {
+							
+								
+//mi intencion era hacer este metodo recursivo de tal forma que si al casilla vale 0, vuelva a comprobar si hay 0a su alrededor y los siga abriendo,peor me da error.
+							
+							juego.sumaPunto();
+							panelesJuego[k][k2].removeAll();
+							JLabel tex=new JLabel("");
+							//tex.setHorizontalAlignment(SwingConstants.CENTER);
+							panelesJuego[k][k2].add(tex);
+							
+					}
+					
+					}
+					
+				}
+			}
+			
+		
+		
 	}
 	
 	
@@ -166,6 +276,29 @@ public class VentanaPrincipal {
 	 * @post : Todos los botones se desactivan excepto el de volver a iniciar el juego.
 	 */
 	public void mostrarFinJuego(boolean porExplosion) {
+		String mensaje;
+		for (int i = 0; i < panelesJuego.length; i++) {
+		for (int j = 0; j < panelesJuego[i].length; j++) {
+	botonesJuego[i][j].setEnabled(false);
+		}	
+		}
+		if(porExplosion) {
+			mensaje=" Puntuacion: "+String.valueOf(getJuego().getPuntuacion())+" \n  �Quieres jugar de nuevo?";
+
+				JOptionPane.showMessageDialog(null, mensaje,"BoooM te peto amiJO!!!", JOptionPane.INFORMATION_MESSAGE);
+				
+				
+
+		}else {
+			mensaje=" Puntuacion: "+String.valueOf(getJuego().getPuntuacion())+" \n  �Quieres jugar de nuevo?";
+
+			JOptionPane.showMessageDialog(null, mensaje,"Felicidades bribon!", JOptionPane.CANCEL_OPTION);
+			
+		
+			
+			
+
+		}
 		//TODO
 	}
 
@@ -173,7 +306,7 @@ public class VentanaPrincipal {
 	 * Método que muestra la puntuación por pantalla.
 	 */
 	public void actualizarPuntuacion() {
-		//TODO
+		pantallaPuntuacion.setText(String.valueOf(juego.getPuntuacion()));
 	}
 	
 	/**
@@ -199,7 +332,9 @@ public class VentanaPrincipal {
 		//IMPORTANTE, PRIMERO HACEMOS LA VENTANA VISIBLE Y LUEGO INICIALIZAMOS LOS COMPONENTES.
 		ventana.setVisible(true);
 		inicializarComponentes();	
-		inicializarListeners();		
+		juego.depurarTablero();
+		inicializarListeners();	
+
 	}
 
 

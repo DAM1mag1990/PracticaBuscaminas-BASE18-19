@@ -1,6 +1,9 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
 /**
  * Clase que implementa el listener de los botones del Buscaminas.
  * De alguna manera tendrá que poder acceder a la ventana principal.
@@ -10,11 +13,14 @@ import java.awt.event.ActionListener;
  **
  */
 public class ActionBoton implements ActionListener{
+	VentanaPrincipal ventana;
+	int i;
+	int j;
 
-	
-
-	public ActionBoton() {
-		//TODO
+	public ActionBoton(VentanaPrincipal ven, int i,int j) {
+	this.ventana=ven;
+	this.i=i;
+	this.j=j;
 	}
 	
 	/**
@@ -22,7 +28,22 @@ public class ActionBoton implements ActionListener{
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		//TODO
+		int resp;
+		
+		if(ventana.juego.abrirCasilla(i, j)) {
+			ventana.mostrarNumMinasAlrededor(i, j);
+			ventana.abrirCeros(i, j);
+			ventana.actualizarPuntuacion();
+			ventana.refrescarPantalla();
+		}else {
+			if(ventana.juego.esFinJuego()) {
+				ventana.mostrarFinJuego(false);	
+			}else {
+				ventana.mostrarFinJuego(true);
+
+			}
+			
+	}
 	}
 
 }
