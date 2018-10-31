@@ -18,6 +18,7 @@ import javax.swing.SwingConstants;
  * @author Manuel Amor Manuel_lol@hotmail.com
  * @version 1.0
  * @since 1.0
+ * En esta clase Creamos la ventana los componentes y les asignamos sus constraints y funciones.
  *
  */
 public class VentanaPrincipal {
@@ -246,8 +247,8 @@ public class VentanaPrincipal {
 		}
 	/**
 	 * El metodo abrir ceros recibe las coordenadas del panel, comprueba los ceros que hay alrededor y los muestra como celdas vacias.
-	 * @param i
-	 * @param j
+	 * @param i posición vertical.
+	 * @param j posición horizontal.
 	 */
 	  
 	 
@@ -286,8 +287,9 @@ public class VentanaPrincipal {
 	
 	/**
 	 * Muestra una ventana que indica el fin del juego
+	 * Todos los botones se desactivan excepto el de volver a iniciar el juego.
 	 * @param porExplosion : Un booleano que indica si es final del juego porque ha explotado una mina (true) o bien porque hemos desactivado todas (false) 
-	 * @post : Todos los botones se desactivan excepto el de volver a iniciar el juego.
+	 * 
 	 */
 	public void mostrarFinJuego(boolean porExplosion) {
 		String mensaje;
